@@ -1,0 +1,74 @@
+{
+    "name": "vro-script-editor",
+    "displayName": "vro-script-editor",
+    "description": "This extension will allow a user to connect to their VRO instance and edit the scripts within the workflows",
+    "version": "0.0.1",
+    "publisher": "stevio54",
+    "engines": {
+        "vscode": "^1.27.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onView:vroDeveloperview"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.sayHello",
+                "title": "Hello World"
+            },
+            {
+                "command": "vro.openScript",
+                "title": "Open Script Task"
+            },
+            {
+                "command": "vro.canvas",
+                "title": "Canvas Build"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "vro-explorer",
+                    "title": "vRO Explorer",
+                    "icon": "dep/elegant-director.png"
+                }
+            ]
+        },
+        "views": {
+            "vro-explorer": [
+                {
+                    "id": "vroDeveloperview",
+                    "name": "Workflows"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "vers": "tsc -v",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^2.2.42",
+        "@types/node": "^8.10.25",
+        "tslint": "^5.8.0",
+        "typescript": "^3.3.4000",
+        "vscode": "^1.1.21"
+    },
+    "dependencies": {
+        "@types/fabric": "^2.6.5",
+        "@types/lodash": "^4.14.123",
+        "@types/paper": "^0.11.9",
+        "@types/request-promise": "^4.1.42",
+        "lodash": "^4.17.11",
+        "paper": "^0.12.0",
+        "request-promise": "^4.2.4"
+    }
+}
