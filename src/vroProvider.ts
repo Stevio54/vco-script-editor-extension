@@ -55,7 +55,7 @@ export class VroProvider implements vscode.TreeDataProvider<VroItem> {
             uri: "https://skeleton.kpsc.io/vco/api/categories?categoryType=WorkflowCategory&isRoot=true",
             headers: {
               "User-Agent": "Request-Promise",
-              "Authorization": "Basic c2Nhcm5lc0Brb3ZhcnVzLmNvbTpJbG92ZW15d2lmZTE5ODQ="
+              "Authorization": "Basic c2Nhcm5lc0Brb3ZhcnVzLmNvbTpJbG92ZWxpZmUxOTg0"
             },
             insecure: true,
             rejectUnauthorized: false,
@@ -69,7 +69,7 @@ export class VroProvider implements vscode.TreeDataProvider<VroItem> {
                 uri: `https://skeleton.kpsc.io/vco/api/categories/${element.Path}`,
                 headers: {
                   "User-Agent": "Request-Promise",
-                  "Authorization": "Basic c2Nhcm5lc0Brb3ZhcnVzLmNvbTpJbG92ZW15d2lmZTE5ODQ="
+                  "Authorization": "Basic c2Nhcm5lc0Brb3ZhcnVzLmNvbTpJbG92ZWxpZmUxOTg0"
                 },
                 insecure: true,
                 rejectUnauthorized: false,
@@ -82,7 +82,7 @@ export class VroProvider implements vscode.TreeDataProvider<VroItem> {
                 uri: `https://skeleton.kpsc.io/vco/api/workflows/${element.Path}/content`,
                 headers: {
                   "User-Agent": "Request-Promise",
-                  "Authorization": "Basic c2Nhcm5lc0Brb3ZhcnVzLmNvbTpJbG92ZW15d2lmZTE5ODQ="
+                  "Authorization": "Basic c2Nhcm5lc0Brb3ZhcnVzLmNvbTpJbG92ZWxpZmUxOTg0"
                 },
                 insecure: true,
                 rejectUnauthorized: false,
@@ -134,12 +134,6 @@ export class VroProvider implements vscode.TreeDataProvider<VroItem> {
                 res([]);
             });
           });
-        
-        // console.log(element);
-        // let items = [];
-        // items.push(new VroItem("Item 1", "Items\Item 1", vscode.TreeItemCollapsibleState.Collapsed));
-        // items.push(new VroItem("Item 2", "Items\Item 2", vscode.TreeItemCollapsibleState.Collapsed));
-        // return Promise.resolve(items);
     }
 
 }

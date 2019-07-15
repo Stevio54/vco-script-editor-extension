@@ -1,0 +1,97 @@
+<html>
+
+<head>
+    <title>Test Window</title>
+</head>
+
+<body style="width: 100%;background-color: black;">
+    <div stye="width: 100%">
+        Welcome! Gringo!
+        <button onClick="sendMessage()" type="button">Click Here</button>
+    </div>
+
+    <div stye="width: 100%">
+        <canvas style="border: 2px solid white;" id="myCanvas" resize></canvas>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.14/lodash.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Action_element.svg" id="Action_element" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Action_element_white.svg" id="Action_element_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Change_credentials.svg" id="Change_credentials" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Change_credentials_white.svg" id="Change_credentials_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Counter_decrease.svg" id="Counter_decrease" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Counter_decrease_white.svg" id="Counter_decrease_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Counter_increase.svg" id="Counter_increase" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Counter_increase_white.svg" id="Counter_increase_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Custom_decision.svg" id="Custom_decision" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Custom_decision_white.svg" id="Custom_decision_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Decision_element.svg" id="Decision_element" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Decision_element_white.svg" id="Decision_element_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/End_workflow.svg" id="End_workflow" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/End_workflow_white.svg" id="End_workflow_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Error_handler_48x.svg" id="Error_handler_48x" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Error_handler_48x_white.svg" id="Error_handler_48x_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Http_get.svg" id="Http_get" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Http_get_white.svg" id="Http_get_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Http_post.svg" id="Http_post" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Http_post_white.svg" id="Http_post_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Log_sys_error.svg" id="Log_sys_error" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Log_sys_error_white.svg" id="Log_sys_error_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Log_sys_info.svg" id="Log_sys_info" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Log_sys_info_white.svg" id="Log_sys_info_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Log_sys_warning.svg" id="Log_sys_warning" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Log_sys_warning_white.svg" id="Log_sys_warning_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Scriptable_task.svg" id="Scriptable_task" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Scriptable_task_white.svg" id="Scriptable_task_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Send_custom_event.svg" id="Send_custom_event" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sleep.svg" id="Sleep" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sleep_white.svg" id="Sleep_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Start_workflow.svg" id="Start_workflow" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Start_workflow_white.svg" id="Start_workflow_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Switch_activity_48x.svg" id="Switch_activity_48x" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Switch_activity_48x_white.svg" id="Switch_activity_48x_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_error.svg" id="Sys_error" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_error_white.svg" id="Sys_error_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_log_B.svg" id="Sys_log_B" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_log_B_white.svg" id="Sys_log_B_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_server_error.svg" id="Sys_server_error" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_server_error_white.svg" id="Sys_server_error_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_server_log_B.svg" id="Sys_server_log_B" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_server_log_B_white.svg" id="Sys_server_log_B_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_server_warning.svg" id="Sys_server_warning" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_server_warning_white.svg" id="Sys_server_warning_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_warning.svg" id="Sys_warning" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Sys_warning_white.svg" id="Sys_warning_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Throw_exception.svg" id="Throw_exception" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Throw_exception_white.svg" id="Throw_exception_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/User_interaction.svg" id="User_interaction" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/User_interaction_white.svg" id="User_interaction_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Wait_custom_event.svg" id="Wait_custom_event" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Wait_custom_event_white.svg" id="Wait_custom_event_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Wait_timer.svg" id="Wait_timer" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Wait_timer_white.svg" id="Wait_timer_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Wait_until_date.svg" id="Wait_until_date" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Wait_until_date_white.svg" id="Wait_until_date_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Waiting_event.svg" id="Waiting_event" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow48x.svg" id="Workflow48x" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow48x_white.svg" id="Workflow48x_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_async.svg" id="Workflow_async" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_async_white.svg" id="Workflow_async_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_foreach.svg" id="Workflow_foreach" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_foreach_white.svg" id="Workflow_foreach_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_nested.svg" id="Workflow_nested" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_nested_white.svg" id="Workflow_nested_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_note.svg" id="Workflow_note" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_note_white.svg" id="Workflow_note_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_schedule.svg" id="Workflow_schedule" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/Workflow_schedule_white.svg" id="Workflow_schedule_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/defaultConnector.svg" id="defaultConnector" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/defaultConnector_white.svg" id="defaultConnector_white" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/errorConnector.svg" id="errorConnector" style="display: none;" />
+    <img src="/Users/stevencarnes/projects/vco-script-editor-extension/media/icons/errorConnector_white.svg" id="errorConnector_white" style="display: none;" />
+    <script src="/Users/stevencarnes/projects/vco-script-editor-extension/media/task.js"></script>
+    <script src="/Users/stevencarnes/projects/vco-script-editor-extension/src/main.js"></script>
+    <script src="/Users/stevencarnes/projects/vco-script-editor-extension/node_modules/paper/dist/paper-full.js"></script>
+</body>
+
+</html>

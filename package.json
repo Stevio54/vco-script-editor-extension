@@ -15,36 +15,22 @@
     ],
     "main": "./out/extension",
     "contributes": {
-        "commands": [
-            {
-                "command": "extension.sayHello",
-                "title": "Hello World"
-            },
-            {
-                "command": "vro.openScript",
-                "title": "Open Script Task"
-            },
-            {
-                "command": "vro.canvas",
-                "title": "Canvas Build"
-            }
-        ],
+        "commands": [{
+            "command": "vro.openScript",
+            "title": "Open Script Task"
+        }],
         "viewsContainers": {
-            "activitybar": [
-                {
-                    "id": "vro-explorer",
-                    "title": "vRO Explorer",
-                    "icon": "dep/elegant-director.png"
-                }
-            ]
+            "activitybar": [{
+                "id": "vro-explorer",
+                "title": "vRO Explorer",
+                "icon": "dep/elegant-director.png"
+            }]
         },
         "views": {
-            "vro-explorer": [
-                {
-                    "id": "vroDeveloperview",
-                    "name": "Workflows"
-                }
-            ]
+            "vro-explorer": [{
+                "id": "vroDeveloperview",
+                "name": "Workflows"
+            }]
         }
     },
     "scripts": {
