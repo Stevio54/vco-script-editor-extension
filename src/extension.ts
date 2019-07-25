@@ -2,25 +2,41 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { VroProvider } from './vroProvider';
-import { VroItem } from './Models/vroItem';
-import * as ppr from 'paper';
-import * as path from 'path';
-import { fstat, readFileSync, readFile, readdir } from 'fs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import * as providers from './providers';
+import { Encrypt } from './common/Encrypt';
+import { AddServerConnection, RemoveServerConnection, OpenWorkflowScript } from './commands';
+import * as fs from 'fs';
+import _ = require('lodash');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: any) {
+    // get the vrealize tools extension
+    const ext: vscode.Extension<any> = vscode.extensions.getExtension('vmware-pscoe.vrealize-developer-tools');
+    // active it so we can use its features
+    ext.activate();
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "vro-script-editor" is now active!');
-    console.log(context.globalStoragePath);
+    // kick off hint collection
+    vscode.commands.executeCommand('vrdev.triggerServerCollection');
 
-    
-    let provider = new VroProvider(context);
+     // get vcenters that were saved
+    let _vc = context.globalState.get('_vc') || [];
+    let vcObs = new BehaviorSubject(_vc);
+
+
+    let provider = new providers.WorkflowProvider(context, vcObs);
     vscode.window.registerTreeDataProvider('vroDeveloperview', provider);
-    vscode.commands.registerCommand("vro.openScript", (scriptText: string, scriptName: string) => provider.openScript(scriptText, scriptName));
+
+    const addServerConnection = new AddServerConnection();
+    addServerConnection.register(context, provider, vcObs);
+
+    const openWorkflowScript = new OpenWorkflowScript();
+    openWorkflowScript.register(context);
+
+    const removeServerConnection = new RemoveServerConnection();
+    removeServerConnection.register(context, provider, vcObs);
+    
     vscode.workspace.onDidSaveTextDocument((e: vscode.TextDocument) => {
         vscode.window.showInputBox({
             value: "Yes",
@@ -30,7 +46,6 @@ export function activate(context: any) {
             vscode.window.showInformationMessage(`You chose: ${choice}`);
         });
     });
-    
 }
 
 // this method is called when your extension is deactivated

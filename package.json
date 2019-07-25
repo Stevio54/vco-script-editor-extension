@@ -11,14 +11,27 @@
         "Other"
     ],
     "activationEvents": [
-        "onView:vroDeveloperview"
+        "*"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [{
-            "command": "vro.openScript",
-            "title": "Open Script Task"
-        }],
+                "command": "vro.openScript",
+                "title": "Open Script Task"
+            },
+            {
+                "command": "vro.encryptPassword",
+                "title": "Encrypt a Password"
+            },
+            {
+                "command": "vro.addConnection",
+                "title": "Add Connection"
+            },
+            {
+                "command": "vro.removeConnection",
+                "title": "Remove Connection"
+            }
+        ],
         "viewsContainers": {
             "activitybar": [{
                 "id": "vro-explorer",
@@ -30,6 +43,16 @@
             "vro-explorer": [{
                 "id": "vroDeveloperview",
                 "name": "Workflows"
+            }]
+        },
+        "menus": {
+            "view/title": [{
+                "command": "vro.addConnection",
+                "when": "view == vroDeveloperview"
+            }],
+            "view/item/context": [{
+                "command": "vro.removeConnection",
+                "when": "view == vroDeveloperview && viewItem == Server"
             }]
         }
     },
@@ -49,12 +72,15 @@
         "vscode": "^1.1.21"
     },
     "dependencies": {
+        "@types/crypto-js": "^3.1.43",
         "@types/fabric": "^2.6.5",
         "@types/lodash": "^4.14.123",
         "@types/paper": "^0.11.9",
         "@types/request-promise": "^4.1.42",
+        "crypto-js": "^3.1.9-1",
         "lodash": "^4.17.11",
         "paper": "^0.12.0",
-        "request-promise": "^4.2.4"
+        "request-promise": "^4.2.4",
+        "rxjs": "^6.5.2"
     }
 }
