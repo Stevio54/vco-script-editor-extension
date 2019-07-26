@@ -20,6 +20,10 @@
                 "title": "Open Script Task"
             },
             {
+                "command": "vro.openAction",
+                "title": "Open Action Script"
+            },
+            {
                 "command": "vro.encryptPassword",
                 "title": "Encrypt a Password"
             },
@@ -30,6 +34,10 @@
             {
                 "command": "vro.removeConnection",
                 "title": "Remove Connection"
+            },
+            {
+                "command": "vro.saveConnection",
+                "title": "Save Connection"
             }
         ],
         "viewsContainers": {
@@ -43,6 +51,9 @@
             "vro-explorer": [{
                 "id": "vroDeveloperview",
                 "name": "Workflows"
+            }, {
+                "id": "vroActionview",
+                "name": "Actions"
             }]
         },
         "menus": {
@@ -51,9 +62,14 @@
                 "when": "view == vroDeveloperview"
             }],
             "view/item/context": [{
-                "command": "vro.removeConnection",
-                "when": "view == vroDeveloperview && viewItem == Server"
-            }]
+                    "command": "vro.saveConnection",
+                    "when": "view == vroDeveloperview && viewItem == Server"
+                },
+                {
+                    "command": "vro.removeConnection",
+                    "when": "view == vroDeveloperview && viewItem =~ /Server[-global]*/"
+                }
+            ]
         }
     },
     "scripts": {

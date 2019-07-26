@@ -10,7 +10,8 @@ export class WorkflowServer extends TreeObject{
 		iconPath: string,
 		readonly collapsibleState: vscode.TreeItemCollapsibleState,
 		readonly command?: vscode.Command,
-		children?: TreeObject[]
+		children?: TreeObject[],
+		public global?: boolean
 	) {
 		super(label, iconPath, collapsibleState, "Server", command, label, authString, children);
 	}
@@ -23,5 +24,5 @@ export class WorkflowServer extends TreeObject{
 		return this.label;
 	}
 
-	contextValue = 'Server';
+	contextValue = `Server${this.global ? '-global' : ''}`;
 }

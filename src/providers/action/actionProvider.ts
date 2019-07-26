@@ -12,6 +12,8 @@ import { Encrypt } from '../../common/Encrypt';
 import { UrlOptions, UriOptions } from 'request';
 import { RequestOptions } from 'https';
 import { TreeObject } from '../../common/TreeObject';
+import { constants } from 'os';
+import { Commands } from '../../common/constants';
 
 export class ActionProvider implements vscode.TreeDataProvider<TreeObject> {
     
@@ -22,7 +24,6 @@ export class ActionProvider implements vscode.TreeDataProvider<TreeObject> {
     }
     constructor(private context: vscode.ExtensionContext, private vcs: BehaviorSubject<any>) {
         this.vcs.subscribe((_vcs) => {
-            console.log(_vcs);
             for (var _vc of _vcs) {
                 if (!_.find(this.vro_servers, (item) => {
                     return item.label === _vc.vc;
@@ -101,7 +102,7 @@ export class ActionProvider implements vscode.TreeDataProvider<TreeObject> {
                     let options = {};
                     let serv = "";
                     let auth = "";
-                    if (element && element.itemType !== "Action" && element.itemType !== "Server") {
+                    if (element && element.itemType === "ScriptModuleCategory") {
                         if (element.children) {
                             return new Promise((res, rej) => {
                                 return res(element.children);
@@ -121,28 +122,13 @@ export class ActionProvider implements vscode.TreeDataProvider<TreeObject> {
                             rejectUnauthorized: false,
                             json: true
                         };
-                    } else if(element && element.itemType === "Action") {
-                        // its a Action
-                        serv = element.serverAddr;
-                        auth = element.auth;
-                        options = {
-                            method: "GET",
-                            uri: `https://${serv}/vco/api/Actions/${element.Path}/content`,
-                            headers: {
-                            "User-Agent": "Request-Promise",
-                            "Authorization": `Basic ${auth}`
-                            },
-                            insecure: true,
-                            rejectUnauthorized: false,
-                            json: true
-                        };
                     } else {
                         // its a ActionServer item
                         serv = element.label;
                         auth = element.authString;
                         options = {
                             method: "GET",
-                            uri: `https://${serv}/vco/api/categories?categoryType=ActionCategory&isRoot=true`,
+                            uri: `https://${serv}/vco/api/categories?categoryType=ScriptModuleCategory&isRoot=true`,
                             headers: {
                             "User-Agent": "Request-Promise",
                             "Authorization": `Basic ${auth}`
@@ -152,42 +138,34 @@ export class ActionProvider implements vscode.TreeDataProvider<TreeObject> {
                             json: true
                         };
                     }
-                    
-                    console.log(options);
 
                     return new Promise((res, rej) => {
                         rp(<(UriOptions & rp.RequestPromiseOptions) | (UrlOptions & rp.RequestPromiseOptions)>options).then(result => {
                             let items = [];
-                            if (result.relations) {
-                                // this is a sub child and not root
+                            if (result.relations && !result.script) {
+                                // this is the list of actions
                                 result.relations.link.forEach(element => {
                                     if (element.rel !== "permissions") {
                                         let id = _.find(element.attributes, y => y.name === "id").value;
                                         let name = _.find(element.attributes, y => y.name === "name").value;
                                         let _type = _.find(element.attributes, y => y.name === "type").value;
                                         if (element.rel === "down") {
-                                            items.push(new ActionItem(name, id, _type, null, (_type === "Action") ? this.context.asAbsolutePath("dep/layers.svg") : this.context.asAbsolutePath("dep/folder.svg"), vscode.TreeItemCollapsibleState.Collapsed, null, serv, auth));
+                                            items.push(new ActionItem(name, id, _type, null, this.context.asAbsolutePath("dep/file.svg"), vscode.TreeItemCollapsibleState.None, {
+                                                title: '',
+                                                command: 'vro.openAction',
+                                                arguments: [id, serv, auth, this]
+                                            }, serv, auth));
                                         }
                                     }
                                 });
-                            } else if (result['Action-item']) {
-                                // working with Actions
-                                result['Action-item'].forEach(element => {
-                                    if (element.type === "task" && element.script) {
-                                        items.push(new ActionItem(element['display-name'], element.name, "task", element.script.value, this.context.asAbsolutePath("dep/file.svg"), vscode.TreeItemCollapsibleState.None, {
-                                            title: '',
-                                            command: 'vro.openScript',
-                                            arguments: [element.script.value, element['display-name']]
-                                        }, serv, auth));
-                                    }
-                                });
-                            } else {
+                            }  else {
+                                // always will be a module name
                                 result.link.forEach(element => {
                                     let id = _.find(element.attributes, y => y.name === "id").value;
                                     let name = _.find(element.attributes, y => y.name === "name").value;
                                     let _type = _.find(element.attributes, y => y.name === "type").value;
                                     if (element.rel === "down") {
-                                        items.push(new ActionItem(name, id, _type, null, (_type === "Action") ? this.context.asAbsolutePath("dep/layers.svg") : this.context.asAbsolutePath("dep/folder.svg"), vscode.TreeItemCollapsibleState.Collapsed,null, serv, auth));
+                                        items.push(new ActionItem(name, id, _type, null, this.context.asAbsolutePath("dep/folder.svg"), vscode.TreeItemCollapsibleState.Collapsed,null, serv, auth));
                                     }
                                 });
                             }

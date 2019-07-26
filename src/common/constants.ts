@@ -6,5 +6,7 @@
  export enum Commands {
      OpenWorkflowScript = "vro.openScript",
      AddServerConnection = "vro.addConnection",
-     RemoveServerConnection = "vro.removeConnection"
+     RemoveServerConnection = "vro.removeConnection",
+     SaveServerConnection = "vro.saveConnection",
+     OpenActionScript = "vro.openAction"
  }

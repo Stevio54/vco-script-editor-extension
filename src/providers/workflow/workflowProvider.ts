@@ -20,15 +20,14 @@ export class WorkflowProvider implements vscode.TreeDataProvider<TreeObject> {
     private decryptAuth(authString: string) {
         return Encrypt.get('AS$%^&*&*', authString);
     }
-    
+
     constructor(private context: vscode.ExtensionContext, private vcs: BehaviorSubject<any>) {
         this.vcs.subscribe((_vcs) => {
-            console.log(_vcs);
             for (var _vc of _vcs) {
                 if (!_.find(this.vro_servers, (item) => {
                     return item.label === _vc.vc;
                 })) {
-                    this.vro_servers.push(new WorkflowServer(_vc.vc, this.decryptAuth(_vc.enc), this.context.asAbsolutePath("dep/server2.svg"), vscode.TreeItemCollapsibleState.Collapsed, null, null));
+                    this.vro_servers.push(new WorkflowServer(_vc.vc, this.decryptAuth(_vc.enc), this.context.asAbsolutePath("dep/server2.svg"), vscode.TreeItemCollapsibleState.Collapsed, null, null, _vc.save));
                 }
             }
 
@@ -124,8 +123,6 @@ export class WorkflowProvider implements vscode.TreeDataProvider<TreeObject> {
                             json: true
                         };
                     }
-                    
-                    console.log(options);
 
                     return new Promise((res, rej) => {
                         rp(<(UriOptions & rp.RequestPromiseOptions) | (UrlOptions & rp.RequestPromiseOptions)>options).then(result => {

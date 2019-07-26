@@ -31,7 +31,17 @@ export class OpenWorkflowScript extends Command {
 
         fs.writeFile(filePath, scriptText, (err: NodeJS.ErrnoException) => {
             vscode.workspace.openTextDocument(filePath).then(doc => {
+                
                 vscode.window.showTextDocument(doc);
+                vscode.workspace.onDidSaveTextDocument((e: vscode.TextDocument) => {
+                    vscode.window.showInputBox({
+                        value: "Yes",
+                        placeHolder: "Choose yes or no",
+                        prompt: "Do you want to send changes to the server?"
+                    }).then((choice: string) => {
+                        vscode.window.showInformationMessage(`You chose: ${choice}`);
+                    });
+                });
             });
         });
     }

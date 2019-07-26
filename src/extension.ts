@@ -5,7 +5,7 @@ import * as vscode from 'vscode';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as providers from './providers';
 import { Encrypt } from './common/Encrypt';
-import { AddServerConnection, RemoveServerConnection, OpenWorkflowScript } from './commands';
+import { AddServerConnection, RemoveServerConnection, OpenWorkflowScript, SaveServerConnection, OpenActionScript } from './commands';
 import * as fs from 'fs';
 import _ = require('lodash');
 
@@ -24,9 +24,21 @@ export function activate(context: any) {
     let _vc = context.globalState.get('_vc') || [];
     let vcObs = new BehaviorSubject(_vc);
 
+    // folding observable
+    let foldObs = new BehaviorSubject(null);
+
+    foldObs.subscribe((prov) => {
+        if (prov) {
+            vscode.languages.registerFoldingRangeProvider(prov.sel, prov.prov);
+        }
+    });
+
 
     let provider = new providers.WorkflowProvider(context, vcObs);
     vscode.window.registerTreeDataProvider('vroDeveloperview', provider);
+
+    let actionProvider = new providers.ActionProvider(context, vcObs);
+    vscode.window.registerTreeDataProvider('vroActionview', actionProvider);
 
     const addServerConnection = new AddServerConnection();
     addServerConnection.register(context, provider, vcObs);
@@ -34,18 +46,16 @@ export function activate(context: any) {
     const openWorkflowScript = new OpenWorkflowScript();
     openWorkflowScript.register(context);
 
+    const openActionScript = new OpenActionScript();
+    openActionScript.register(context, foldObs);
+
     const removeServerConnection = new RemoveServerConnection();
     removeServerConnection.register(context, provider, vcObs);
-    
-    vscode.workspace.onDidSaveTextDocument((e: vscode.TextDocument) => {
-        vscode.window.showInputBox({
-            value: "Yes",
-            placeHolder: "Choose yes or no",
-            prompt: "Do you want to send changes to the server?"
-        }).then((choice: string) => {
-            vscode.window.showInformationMessage(`You chose: ${choice}`);
-        });
-    });
+
+    const saveServerConnection = new SaveServerConnection();
+    saveServerConnection.register(context, provider, vcObs);
+
+
 }
 
 // this method is called when your extension is deactivated

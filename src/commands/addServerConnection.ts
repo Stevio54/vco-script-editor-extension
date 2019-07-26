@@ -39,9 +39,11 @@ export class AddServerConnection extends Command {
                         _vc.push({ vc: fqdn, enc: encryPass, save: true });
                         context.globalState.update('_vc', _.filter(_vc, (item) => item.save ));
                         vCenterRegistry.next(_vc);
+                        vscode.window.showInformationMessage(`You saved the connection: ${fqdn} globally`);
                     } else {
                         _vc.push({ vc: fqdn, enc: encryPass, save: false });
                         vCenterRegistry.next(_vc);
+                        vscode.window.showInformationMessage(`You added the connection: ${fqdn} to your current session`);
                     }
                 }
             }
