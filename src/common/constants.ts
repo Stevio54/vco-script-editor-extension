@@ -8,5 +8,6 @@
      AddServerConnection = "vro.addConnection",
      RemoveServerConnection = "vro.removeConnection",
      SaveServerConnection = "vro.saveConnection",
-     OpenActionScript = "vro.openAction"
+     OpenActionScript = "vro.openAction",
+     SelectServer = "vro.selectServer"
  }

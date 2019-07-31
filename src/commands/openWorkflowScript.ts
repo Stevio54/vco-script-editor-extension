@@ -32,7 +32,10 @@ export class OpenWorkflowScript extends Command {
         fs.writeFile(filePath, scriptText, (err: NodeJS.ErrnoException) => {
             vscode.workspace.openTextDocument(filePath).then(doc => {
                 
-                vscode.window.showTextDocument(doc);
+                vscode.window.showTextDocument(doc, {
+                    viewColumn: vscode.ViewColumn.Active,
+                    preview: false
+                });
                 vscode.workspace.onDidSaveTextDocument((e: vscode.TextDocument) => {
                     vscode.window.showInputBox({
                         value: "Yes",

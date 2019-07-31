@@ -49,25 +49,34 @@
         },
         "views": {
             "vro-explorer": [{
+                "id": "vroServerSelection",
+                "name": "Server Selection",
+                "weight": 2,
+                "order": 1
+            }, {
                 "id": "vroDeveloperview",
-                "name": "Workflows"
+                "name": "Workflows",
+                "order": 2,
+                "weight": 8
             }, {
                 "id": "vroActionview",
-                "name": "Actions"
+                "name": "Actions",
+                "order": 3,
+                "weight": 8
             }]
         },
         "menus": {
             "view/title": [{
                 "command": "vro.addConnection",
-                "when": "view == vroDeveloperview"
+                "when": "view == vroServerSelection"
             }],
             "view/item/context": [{
                     "command": "vro.saveConnection",
-                    "when": "view == vroDeveloperview && viewItem == Server"
+                    "when": "view == vroServerSelection && viewItem == Server"
                 },
                 {
                     "command": "vro.removeConnection",
-                    "when": "view == vroDeveloperview && viewItem =~ /Server[-global]*/"
+                    "when": "view == vroServerSelection && viewItem =~ /Server[-global]*/"
                 }
             ]
         }

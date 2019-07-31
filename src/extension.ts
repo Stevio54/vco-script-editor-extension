@@ -8,6 +8,7 @@ import { Encrypt } from './common/Encrypt';
 import { AddServerConnection, RemoveServerConnection, OpenWorkflowScript, SaveServerConnection, OpenActionScript } from './commands';
 import * as fs from 'fs';
 import _ = require('lodash');
+import { SelectActiveServer } from './commands/selectActiveServer';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -27,6 +28,9 @@ export function activate(context: any) {
     // folding observable
     let foldObs = new BehaviorSubject(null);
 
+    // active server observable
+    let activeObs = new BehaviorSubject(null);
+
     foldObs.subscribe((prov) => {
         if (prov) {
             vscode.languages.registerFoldingRangeProvider(prov.sel, prov.prov);
@@ -34,10 +38,13 @@ export function activate(context: any) {
     });
 
 
-    let provider = new providers.WorkflowProvider(context, vcObs);
+    let serverProvider = new providers.ServerSelectionProvider(context, vcObs);
+    vscode.window.registerTreeDataProvider('vroServerSelection', serverProvider);
+
+    let provider = new providers.WorkflowProvider(context, activeObs);
     vscode.window.registerTreeDataProvider('vroDeveloperview', provider);
 
-    let actionProvider = new providers.ActionProvider(context, vcObs);
+    let actionProvider = new providers.ActionProvider(context, activeObs);
     vscode.window.registerTreeDataProvider('vroActionview', actionProvider);
 
     const addServerConnection = new AddServerConnection();
@@ -50,12 +57,20 @@ export function activate(context: any) {
     openActionScript.register(context, foldObs);
 
     const removeServerConnection = new RemoveServerConnection();
-    removeServerConnection.register(context, provider, vcObs);
+    removeServerConnection.register(context, serverProvider, vcObs);
 
     const saveServerConnection = new SaveServerConnection();
-    saveServerConnection.register(context, provider, vcObs);
+    saveServerConnection.register(context, serverProvider, vcObs);
 
-
+    const selectServer = new SelectActiveServer();
+    selectServer.register(context, serverProvider, activeObs);
+    
+    const views = vscode.extensions.all;
+    for(var v of views) {
+        console.log(v.id);
+    }
+    //console.log(`views: ${views}`);
+    //console.log(views);
 }
 
 // this method is called when your extension is deactivated

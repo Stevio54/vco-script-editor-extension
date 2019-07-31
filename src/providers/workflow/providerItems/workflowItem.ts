@@ -13,6 +13,7 @@ export class WorkflowItem extends TreeObject {
 		readonly command?: vscode.Command,
 		readonly serverAddr?: string,
 		readonly auth?: string,
+		readonly port?: number,
 		children?: WorkflowItem[]
 	) {
 		super(label, iconPath, collapsibleState, itemType, command, serverAddr, auth, children);
@@ -23,7 +24,7 @@ export class WorkflowItem extends TreeObject {
 	}
 
 	get description(): string {
-		return this.Path;
+		return null; // don't need a description here
 	}
 
 	contextValue = 'Workflow';

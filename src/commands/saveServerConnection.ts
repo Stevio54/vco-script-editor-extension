@@ -24,12 +24,13 @@ export class SaveServerConnection extends Command {
         });
 
         itm.save = true; // set to save
+        input.isGlobal = true;
 
         // set the global state with item.
         context.globalState.update('_vc', _.filter(_vc, (item) => item.save ));
         vCenterRegistry.next(_vc);
 
-        vscode.window.showInformationMessage(`You saved the connection: ${itm.label} globally`);
+        vscode.window.showInformationMessage(`You saved the connection: ${input.label} globally`);
     }
 
 

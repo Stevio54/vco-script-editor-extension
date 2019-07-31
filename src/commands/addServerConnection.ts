@@ -28,6 +28,8 @@ export class AddServerConnection extends Command {
                 const pass = await vscode.window.showInputBox({ ignoreFocusOut: true, password: true, prompt: "Enter Password:"});
 
                 if (pass) {
+                    const port = await vscode.window.showInputBox({ ignoreFocusOut: true, prompt: "Enter Port:", value: '443' });
+
                     const YeorNe = await vscode.window.showQuickPick(['Yes', 'No'], { canPickMany: false, placeHolder: 'Save credentials?' });
 
                     // base64 encrypt auth string
@@ -36,14 +38,14 @@ export class AddServerConnection extends Command {
                     const encryPass = Encrypt.set('AS$%^&*&*', buffedAuth);
 
                     if (YeorNe === "Yes") {
-                        _vc.push({ vc: fqdn, enc: encryPass, save: true });
+                        _vc.push({ vc: fqdn, port: (port ? port : 443), enc: encryPass, save: true });
                         context.globalState.update('_vc', _.filter(_vc, (item) => item.save ));
                         vCenterRegistry.next(_vc);
-                        vscode.window.showInformationMessage(`You saved the connection: ${fqdn} globally`);
+                        vscode.window.showInformationMessage(`You saved the connection: ${fqdn}:${(port ? port : 443)} globally`);
                     } else {
-                        _vc.push({ vc: fqdn, enc: encryPass, save: false });
+                        _vc.push({ vc: fqdn, port: (port ? port : 443), enc: encryPass, save: false });
                         vCenterRegistry.next(_vc);
-                        vscode.window.showInformationMessage(`You added the connection: ${fqdn} to your current session`);
+                        vscode.window.showInformationMessage(`You added the connection: ${fqdn}:${(port ? port : 443)} to your current session`);
                     }
                 }
             }

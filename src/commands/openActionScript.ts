@@ -125,7 +125,10 @@ export class OpenActionScript extends Command {
 
         fs.writeFile(filePath, prependResult.updated, (err: NodeJS.ErrnoException) => {
             vscode.workspace.openTextDocument(filePath).then(doc => {
-                vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside).then((editor) => {
+                vscode.window.showTextDocument(doc, {
+                    viewColumn: vscode.ViewColumn.Active,
+                    preview: false
+                }).then((editor) => {
                     if(prependResult.pre !== '') {
                          // set the range object of the prepend
                         const preAnchor = new vscode.Position(0, 0);
@@ -166,10 +169,10 @@ export class OpenActionScript extends Command {
         return Commands.OpenActionScript;
     }    
     
-    execute(context: vscode.ExtensionContext, foldingRegistry: BehaviorSubject<any>, scriptId: string, scriptServer: string, scriptAuth: string): void | Promise<void> {
+    execute(context: vscode.ExtensionContext, foldingRegistry: BehaviorSubject<any>, scriptId: string, scriptServer: string, scriptAuth: string, scriptPort: number): void | Promise<void> {
         const options = {
             method: "GET",
-            uri: `https://${scriptServer}/vco/api/actions/${scriptId}`,
+            uri: `https://${scriptServer}:${scriptPort}/vco/api/actions/${scriptId}`,
             headers: {
             "User-Agent": "Request-Promise",
             "Authorization": `Basic ${scriptAuth}`
